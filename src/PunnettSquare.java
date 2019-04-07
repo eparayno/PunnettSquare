@@ -29,21 +29,14 @@ public class PunnettSquare {
         List<String> fatherGametes = new ArrayList<>();
         List<String> motherGametes = new ArrayList<>();
 
-        if(traitNum > 1) {
-            makeCombinations(fGenotype, fatherGametes, traitNum);
-            makeCombinations(mGenotype, motherGametes, traitNum);
-        } else {
-            motherGametes.add(mGenotype.charAt(0)+"");
-            motherGametes.add(mGenotype.charAt(1)+"");
-            fatherGametes.add(fGenotype.charAt(0)+"");
-            fatherGametes.add(fGenotype.charAt(1)+"");
-        }
+        makeCombinations(fGenotype, fatherGametes, traitNum);
+        makeCombinations(mGenotype, motherGametes, traitNum);
         printGametes(fatherGametes, motherGametes);
 
         cross(fatherGametes, motherGametes, traitNum);
 
-        int numPossCombos = 0;
-        System.out.println("\n>>GENERATED POSSIBLE OFFSPRING GENOTYPES: ");
+        int numPossGenotypes = 0;
+        System.out.println("\n\n>>GENERATED POSSIBLE OFFSPRING GENOTYPES: ");
         for (String genotype: offspringGenotype.keySet()) {
             StringBuilder phenotype = new StringBuilder();
             for (Trait t: traits) {
@@ -59,9 +52,9 @@ public class PunnettSquare {
                 offspringPhenotype.put(phenotype.toString(), offspringGenotype.get(genotype));
             }
             System.out.println(genotype + " occurrence: " + offspringGenotype.get(genotype));
-            numPossCombos += offspringGenotype.get(genotype);
+            numPossGenotypes += offspringGenotype.get(genotype);
         }
-        System.out.println("Number of generated genotypes: " + numPossCombos);
+        System.out.println("Number of generated genotypes: " + numPossGenotypes);
         System.out.println("Number of distinct genotypes: " + offspringGenotype.size());
 
         int numPossPhenotypes = 0;
@@ -79,9 +72,7 @@ public class PunnettSquare {
             for (String motherGamete : motherGametes) {
                 StringBuilder genotype = new StringBuilder();
                 for (int k = 0; k < traitNum; k++) {
-                    char x = motherGamete.charAt(k);
-                    char y = fatherGamete.charAt(k);
-                    if (Character.isUpperCase(x)) {
+                    if (Character.isUpperCase(motherGamete.charAt(k))) {
                         genotype.append(motherGamete.charAt(k)).append(fatherGamete.charAt(k));
                     } else {
                         genotype.append(fatherGamete.charAt(k)).append(motherGamete.charAt(k));
@@ -104,7 +95,6 @@ public class PunnettSquare {
             t.add(tParts);
             count += 2;
         }
-
         Queue<String> generator = new LinkedList<>();
         generator.add("");
         int count2 = 0;
@@ -130,12 +120,10 @@ public class PunnettSquare {
         for (String gametes: fatherGametes) {
             System.out.print(gametes + ", ");
         }
-        System.out.println();
-        System.out.print("Mother's gametes: ");
+        System.out.print("\nMother's gametes: ");
         for (String gametes: motherGametes){
             System.out.print(gametes + ", ");
         }
-        System.out.println();
     }
 
     private static void printTraits(){
